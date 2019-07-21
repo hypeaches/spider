@@ -1,5 +1,6 @@
 # encoding=utf-8
 
+import chardet
 import os
 import sys
 import urllib.request
@@ -155,13 +156,13 @@ class MyNovel:
 
     @staticmethod
     def decode_html(response):
+        html = response.read()
         info = '{}'.format(response.info())
-        ind = info.find('Content-Encoding: gzip')
-        if ind >= 0:
-            html = zlib.decompress(response.read(), 16 + zlib.MAX_WBITS)  # 获取到页面的源代码
-            html = html.decode('utf-8', 'ignore')
-            return html
-        return response.read().decode('gbk')
+        if info.find('Content-Encoding: gzip') >= 0:
+            html = zlib.decompress(html, 16 + zlib.MAX_WBITS)  # 获取到页面的源代码
+        char_detect_result = chardet.detect(html)
+        html_encoding = char_detect_result["encoding"]
+        return html.decode(html_encoding)
 
 
 if __name__ == "__main__":
