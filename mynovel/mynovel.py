@@ -169,7 +169,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print("使用方法：")
         print(sys.argv[0], "<index url> [小说保存路径]")
-        exit(1)
+        sys.exit(1)
     index_url = sys.argv[1]
     download_work_dir = "./novel"
     if len(sys.argv) == 3:
